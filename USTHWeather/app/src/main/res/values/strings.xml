@@ -2,4 +2,24 @@
     <string name="app_name">USTH Weather</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sunny">Sunny</string>
+    <string name="blizzard">Blizzard</string>
+    <string name="chance_of_rain">Chance of Rain</string>
+    <string name="cloudy">Cloudy</string>
+    <string name="cold">Cold</string>
+    <string name="hot">Hot</string>
+    <string name="rain">Rain</string>
+    <string name="shower">Shower</string>
+    <string name="snowy">Snowy</string>
+    <string name="thunder">Thunder</string>
+    <string name="tornado">Tornado</string>
+    <string name="windy">Windy</string>
+    <string name="partly_cloud">Partly Cloudy</string>
+    <string name="mon">Mon</string>
+    <string name="tues">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thurs">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
+    <string name="sun">Sun</string>
 </resources>
