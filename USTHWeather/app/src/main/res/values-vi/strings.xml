@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">USTH Weather</string>
+    <string name="sunny">Nắng đẹp</string>
+    <string name="blizzard">Bão tuyết</string>
+    <string name="chance_of_rain">Khả năng mưa</string>
+    <string name="cloudy">Nhiều mây</string>
+    <string name="cold">Lạnh</string>
+    <string name="hot">Nóng</string>
+    <string name="rain">Mưa</string>
+    <string name="shower">Mưa to</string>
+    <string name="snowy">Có tuyết</string>
+    <string name="thunder">Có sấm</string>
+    <string name="tornado">Lốc xoáy</string>
+    <string name="windy">Gió to</string>
+    <string name="partly_cloud">Có mây</string>
+    <string name="mon">Thứ hai</string>
+    <string name="tues">Thứ ba</string>
+    <string name="wed">Thứ tư</string>
+    <string name="thurs">Thứ năm</string>
+    <string name="fri">Thứ sáu</string>
+    <string name="sat">Thứ bảy</string>
+    <string name="sun">Chủ nhật</string>
+    <string name="hanoi">Hà Nội</string>
+</resources>
