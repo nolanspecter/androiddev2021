@@ -12,6 +12,8 @@
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/temp"
+        android:layout_marginTop="75px"
+        android:layout_marginLeft="75px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -19,6 +21,8 @@
 
     <TextView
         android:id="@+id/place"
+        android:layout_marginTop="75px"
+        android:layout_marginRight="75px"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -26,6 +30,7 @@
 
     <TextView
         android:id="@+id/sky"
+        android:layout_marginLeft="75px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/temp"
