@@ -4,6 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
@@ -14,10 +18,14 @@ public class WeatherActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
         Log.i("Weather","onCreate");
-        WeatherFragment firstFragment = new WeatherFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.weather_frag, firstFragment).commit();
-        ForecastFragment secondFragment = new ForecastFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.forecast_frag,secondFragment).commit();
+//        WeatherFragment firstFragment = new WeatherFragment();
+//        getSupportFragmentManager().beginTransaction().add(R.id.weather_frag, firstFragment).commit();
+//        ForecastFragment secondFragment = new ForecastFragment();
+//        getSupportFragmentManager().beginTransaction().add(R.id.forecast_frag,secondFragment).commit();
+
+        PagerAdapter adapter = new HomePagerAdapter(getSupportFragmentManager());
+        ViewPager pager = (ViewPager) findViewById(R.id.pager);
+        pager.setAdapter(adapter);
     }
 
     @Override

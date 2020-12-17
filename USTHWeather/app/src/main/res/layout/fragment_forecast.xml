@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:layout_margin="75px"
     android:paddingTop="30px"
-    android:background="#330000FF"
     android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
@@ -15,7 +14,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="50px"
                     android:layout_marginLeft="35px"
-
                     android:text="@string/mon" />
 
                 <ImageView

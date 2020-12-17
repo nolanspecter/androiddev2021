@@ -8,12 +8,9 @@
     android:orientation="vertical"
     tools:context=".WeatherActivity">
 
-    <FrameLayout
+    <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/weather_frag"/>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/forecast_frag"/>
+        android:id="@+id/pager">
+    </androidx.viewpager.widget.ViewPager>
 </LinearLayout>
