@@ -7,7 +7,7 @@ import android.app.FragmentTransaction;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
+import com.google.android.material.tabs.TabLayout;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
@@ -26,6 +26,8 @@ public class WeatherActivity extends AppCompatActivity {
         PagerAdapter adapter = new HomePagerAdapter(getSupportFragmentManager());
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(adapter);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab);
+        tabLayout.setupWithViewPager(pager);
     }
 
     @Override
