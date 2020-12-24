@@ -8,9 +8,19 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
+
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class WeatherActivity extends AppCompatActivity {
     @Override
@@ -28,14 +38,46 @@ public class WeatherActivity extends AppCompatActivity {
         pager.setAdapter(adapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab);
         tabLayout.setupWithViewPager(pager);
+
+        MediaPlayer player = MediaPlayer.create(WeatherActivity.this, R.raw.song);
+        player.start();
     }
 
     @Override
     protected void onStart(){
         super.onStart();
+        copyFileToExternalStorage(R.raw.song,"sample.mp3");
         Log.i("Weather", "onStart");
     }
 
+    private void copyFileToExternalStorage(int resid, String resname){
+        try{
+            File file = new File(getExternalFilesDir(null),resname);
+            InputStream s = getApplicationContext().getResources().openRawResource(resid);
+            OutputStream o = new FileOutputStream(file);
+            byte[] buff = new byte[1024*2];
+            int read = 0;
+            try{
+                while ((read = s.read(buff)) > 0){
+                    o.write(buff,0,read);
+                }
+            }
+            finally {
+                Toast toast = Toast.makeText(getApplicationContext(), file.getAbsolutePath(), Toast.LENGTH_LONG);
+                toast.show();
+                s.close();
+                o.close();
+            }
+        }
+        catch (FileNotFoundException e){
+            e.printStackTrace();
+            Toast toast = Toast.makeText(getApplicationContext(), "File not found", Toast.LENGTH_LONG);
+            toast.show();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
     @Override
     protected void onResume(){
         super.onResume();
