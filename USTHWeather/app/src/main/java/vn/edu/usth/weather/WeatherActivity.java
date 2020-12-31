@@ -2,15 +2,13 @@ package vn.edu.usth.weather;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -18,7 +16,6 @@ import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.io.File;
@@ -119,6 +116,7 @@ public class WeatherActivity extends AppCompatActivity {
         switch (menuItem.getItemId()){
             case R.id.refresh:
                 refresh();
+                new refresh_new().execute();
                 return true;
             case R.id.settings:
                 Intent intent = new Intent(this, PrefActivity.class);
@@ -157,5 +155,26 @@ public class WeatherActivity extends AppCompatActivity {
             }
         });
         t.start();
+    }
+
+    private class refresh_new extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... voids){
+            try {
+                Thread.sleep(10000);
+            }
+            catch (InterruptedException e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onProgressUpdate(Void... voids){}
+
+        @Override
+        protected void onPostExecute(Void voids){
+            Toast.makeText(getApplicationContext(), "Refreshing Again...", Toast.LENGTH_SHORT).show();
+            return;
+        }
     }
 }
