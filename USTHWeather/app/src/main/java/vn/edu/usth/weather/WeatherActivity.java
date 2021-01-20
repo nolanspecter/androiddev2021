@@ -6,7 +6,11 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,6 +20,8 @@ import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -24,6 +30,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class WeatherActivity extends AppCompatActivity {
     @Override
@@ -115,16 +124,51 @@ public class WeatherActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem menuItem){
         switch (menuItem.getItemId()){
             case R.id.refresh:
-                refresh();
-                new refresh_new().execute();
-                return true;
+                //refresh();
+                @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, Bitmap> task = new AsyncTask<String, Integer, Bitmap>() {
+                    @Override
+                    protected Bitmap doInBackground(String...strings){
+                        Bitmap btmp = null;
+                        try {
+                            URL url = new URL(strings[0]);
+                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                            connection.setRequestMethod("GET");
+                            connection.setDoInput(true);
+                            connection.connect();
+
+                            int response = connection.getResponseCode();
+                            Log.i("USTHWeather", "The connection is: " + response);
+                            InputStream in = connection.getInputStream();
+
+                            btmp = BitmapFactory.decodeStream(in);
+                            connection.disconnect();
+                        }
+                        catch (IOException e){
+                            e.printStackTrace();
+                        }
+                        return btmp;
+                    }
+
+                    @Override
+                    protected void onProgressUpdate(Integer... voids){}
+
+                    @Override
+                    protected void onPostExecute(Bitmap bitmap){
+                        ImageView logo = findViewById(R.id.logo);
+                        logo.setImageBitmap(bitmap);
+                        Toast.makeText(getApplicationContext(), "Refreshing Again...", Toast.LENGTH_SHORT).show();
+                    }
+                };
+                task.execute("https://usth.edu.vn/uploads/tin-tuc/2019_12/logo-usth-pa3-01.png");
+                break;
             case R.id.settings:
                 Intent intent = new Intent(this, PrefActivity.class);
                 startActivity(intent);
-                return true;
+                break;
             default:
                 return super.onOptionsItemSelected(menuItem);
         }
+        return true;
     }
 
     public void refresh(){
@@ -161,9 +205,23 @@ public class WeatherActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids){
             try {
-                Thread.sleep(10000);
+                URL url = new URL("https://usth.edu.vn/uploads/logo_moi-eng.png");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.setDoInput(true);
+                connection.connect();
+
+                int response = connection.getResponseCode();
+                Log.i("USTHWeather", "The connection is: " + response);
+                InputStream in = connection.getInputStream();
+
+                Bitmap btmp = BitmapFactory.decodeStream(in);
+                ImageView logo = (ImageView) findViewById(R.id.logo);
+                logo.setImageBitmap(btmp);
+
+                connection.disconnect();
             }
-            catch (InterruptedException e){
+            catch (IOException e){
                 e.printStackTrace();
             }
             return null;
