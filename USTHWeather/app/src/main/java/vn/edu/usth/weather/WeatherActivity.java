@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
-
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -125,41 +128,19 @@ public class WeatherActivity extends AppCompatActivity {
         switch (menuItem.getItemId()){
             case R.id.refresh:
                 //refresh();
-                @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, Bitmap> task = new AsyncTask<String, Integer, Bitmap>() {
+                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+                Response.Listener<Bitmap> listener = new Response.Listener<Bitmap>() {
                     @Override
-                    protected Bitmap doInBackground(String...strings){
-                        Bitmap btmp = null;
-                        try {
-                            URL url = new URL(strings[0]);
-                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                            connection.setRequestMethod("GET");
-                            connection.setDoInput(true);
-                            connection.connect();
-
-                            int response = connection.getResponseCode();
-                            Log.i("USTHWeather", "The connection is: " + response);
-                            InputStream in = connection.getInputStream();
-
-                            btmp = BitmapFactory.decodeStream(in);
-                            connection.disconnect();
-                        }
-                        catch (IOException e){
-                            e.printStackTrace();
-                        }
-                        return btmp;
-                    }
-
-                    @Override
-                    protected void onProgressUpdate(Integer... voids){}
-
-                    @Override
-                    protected void onPostExecute(Bitmap bitmap){
-                        ImageView logo = findViewById(R.id.logo);
+                    public void onResponse(Bitmap bitmap){
+                        ImageView logo = (ImageView) findViewById(R.id.logo);
                         logo.setImageBitmap(bitmap);
-                        Toast.makeText(getApplicationContext(), "Refreshing Again...", Toast.LENGTH_SHORT).show();
                     }
                 };
-                task.execute("https://usth.edu.vn/uploads/tin-tuc/2019_12/logo-usth-pa3-01.png");
+                ImageRequest imgrequest = new ImageRequest(
+                        "https://usth.edu.vn/uploads/tin-tuc/2019_12/logo-usth-pa3-01.png",
+                        listener, 0, 0, ImageView.ScaleType.CENTER,
+                        Bitmap.Config.ARGB_8888,null);
+                queue.add(imgrequest);
                 break;
             case R.id.settings:
                 Intent intent = new Intent(this, PrefActivity.class);
