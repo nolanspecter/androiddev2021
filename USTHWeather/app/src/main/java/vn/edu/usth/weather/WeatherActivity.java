@@ -4,6 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.tabs.TabLayout;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -25,7 +29,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -127,20 +135,8 @@ public class WeatherActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem menuItem){
         switch (menuItem.getItemId()){
             case R.id.refresh:
-                //refresh();
-                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                Response.Listener<Bitmap> listener = new Response.Listener<Bitmap>() {
-                    @Override
-                    public void onResponse(Bitmap bitmap){
-                        ImageView logo = (ImageView) findViewById(R.id.logo);
-                        logo.setImageBitmap(bitmap);
-                    }
-                };
-                ImageRequest imgrequest = new ImageRequest(
-                        "https://usth.edu.vn/uploads/tin-tuc/2019_12/logo-usth-pa3-01.png",
-                        listener, 0, 0, ImageView.ScaleType.CENTER,
-                        Bitmap.Config.ARGB_8888,null);
-                queue.add(imgrequest);
+                refresh();
+                getTempdata();
                 break;
             case R.id.settings:
                 Intent intent = new Intent(this, PrefActivity.class);
@@ -151,7 +147,28 @@ public class WeatherActivity extends AppCompatActivity {
         }
         return true;
     }
-
+    public void getTempdata() {
+        String url = "https://api.openweathermap.org/data/2.5/weather?q=hanoi&appid=e25f069c83e74bcd83098b28172ab186";
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String res) {
+                try {
+                    JSONObject json = new JSONObject(res);
+                    JSONObject main = json.getJSONObject("main");
+                    ((TextView) findViewById(R.id.temp)).setText(main.getString("temp"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        queue.add(request);
+    }
     public void refresh(){
         final Handler handler = new Handler(Looper.getMainLooper()){
             @Override
@@ -182,38 +199,38 @@ public class WeatherActivity extends AppCompatActivity {
         t.start();
     }
 
-    private class refresh_new extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... voids){
-            try {
-                URL url = new URL("https://usth.edu.vn/uploads/logo_moi-eng.png");
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-                connection.setDoInput(true);
-                connection.connect();
-
-                int response = connection.getResponseCode();
-                Log.i("USTHWeather", "The connection is: " + response);
-                InputStream in = connection.getInputStream();
-
-                Bitmap btmp = BitmapFactory.decodeStream(in);
-                ImageView logo = (ImageView) findViewById(R.id.logo);
-                logo.setImageBitmap(btmp);
-
-                connection.disconnect();
-            }
-            catch (IOException e){
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        protected void onProgressUpdate(Void... voids){}
-
-        @Override
-        protected void onPostExecute(Void voids){
-            Toast.makeText(getApplicationContext(), "Refreshing Again...", Toast.LENGTH_SHORT).show();
-            return;
-        }
-    }
+//    private class refresh_new extends AsyncTask<Void, Void, Void> {
+//        @Override
+//        protected Void doInBackground(Void... voids){
+//            try {
+//                URL url = new URL("https://usth.edu.vn/uploads/logo_moi-eng.png");
+//                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//                connection.setRequestMethod("GET");
+//                connection.setDoInput(true);
+//                connection.connect();
+//
+//                int response = connection.getResponseCode();
+//                Log.i("USTHWeather", "The connection is: " + response);
+//                InputStream in = connection.getInputStream();
+//
+//                Bitmap btmp = BitmapFactory.decodeStream(in);
+//                ImageView logo = (ImageView) findViewById(R.id.logo);
+//                logo.setImageBitmap(btmp);
+//
+//                connection.disconnect();
+//            }
+//            catch (IOException e){
+//                e.printStackTrace();
+//            }
+//            return null;
+//        }
+//
+//        protected void onProgressUpdate(Void... voids){}
+//
+//        @Override
+//        protected void onPostExecute(Void voids){
+//            Toast.makeText(getApplicationContext(), "Refreshing Again...", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//    }
 }

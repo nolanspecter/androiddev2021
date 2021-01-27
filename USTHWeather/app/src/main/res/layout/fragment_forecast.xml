@@ -44,11 +44,11 @@
                                     android:layout_marginLeft="35px"
                                     android:text="@string/sunny"/>
                                 <TextView
+                                    android:id="@+id/temp"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:layout_marginLeft="35px"
-
                                     android:text="12C - 15C"/>
                         </LinearLayout>
                 </LinearLayout>

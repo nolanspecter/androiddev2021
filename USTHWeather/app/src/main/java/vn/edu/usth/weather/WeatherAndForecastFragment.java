@@ -9,11 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link WeatherAndForecastFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class WeatherAndForecastFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
